@@ -182,11 +182,14 @@ console.log(o2);
 
 o2.func2();
 
+const valoare = 4;
+
 const person = {
   fName: 'Paul',
   lName: 'Negoescu',
   height: 1.85,
   weight: 100,
+  valoare,
   calculateBmi() {
     console.log(this);
     return (this.weight / this.height ** 2).toFixed(2);
@@ -195,7 +198,36 @@ const person = {
     console.log(this);
     return (this.weight / this.height ** 2).toFixed(2);
   },
+  get fullName() {
+    return this.fName + ' ' + this.lName;
+  },
+  set fullName(val) {
+    [this.fName, this.lName] = val.split(' ');
+  },
 };
+
+const name = 'Andrei';
+
+// Destructuring Assignment
+const arr1 = [1, 2, [3, 4, 5]];
+const [, , [trei, , cinci]] = arr1;
+console.log({ trei, cinci });
+const o3 = {
+  prop: 'val',
+  prop2: [1, 6],
+  prop3: { name: 'Paul' },
+};
+const {
+  prop3: { name: alias },
+  prop: altNume,
+  prop,
+} = o3;
+console.log({ alias, altNume, prop });
+// End Destructuring Assigment
+
+console.log(person.fullName);
+person.fullName = 'Andrei Oniga';
+console.log(person.fullName, person.fName);
 
 const func3 = person.calculateBmi;
 
@@ -216,3 +248,67 @@ console.log(person.calculateBmi.apply({ weight: 10, height: 10 }));
 // 2. This can be determined at the moment of function creation:
 //      a. arrow functions get their this from the current scope as if it is a normal variable => lexical this
 //      b. using .bind we can set this to whatever we wan
+
+console.clear();
+// Object and Array Spreading
+const a0 = ['Paul'];
+const a1 = [1, 2, 3, a0];
+const a2 = [4, 5, 6];
+const maybeClone = a1;
+const clone = [...a1];
+const realClone = structuredClone(a1);
+
+console.log(clone === a1, {
+  clone: JSON.stringify(clone),
+  a1: JSON.stringify(a1),
+});
+
+maybeClone[0] = 7;
+clone[0] = 9;
+console.log({ a1, maybeClone, clone });
+
+function testPassByRef(a) {
+  const clone = [...a];
+  clone[0] = 42;
+}
+
+testPassByRef(a1);
+console.log({ a1 });
+
+const newArr = ['Paul', ...a2, 'Negoescu', ...a1, 8, 9, 10];
+console.log({ newArr });
+
+a0.push('Negoescu');
+console.log({ a1, clone, realClone });
+
+const o1 = { prop: 'test' };
+const o8 = { newProp: 'Paul', ...o1 };
+console.log(o8);
+
+{
+  let i = 0;
+  while (i < 20) {
+    console.log(i);
+    i++;
+  }
+}
+
+for (let i = 0; i < 20; i++) {
+  console.log(i);
+}
+
+{
+  let i = 20;
+  do {
+    console.log(i);
+    i++;
+  } while (i < 20);
+}
+
+for (const elem of a1) {
+  console.log(elem);
+}
+
+for (const key in o8) {
+  console.log(key, o8[key]);
+}
