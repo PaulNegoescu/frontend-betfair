@@ -312,3 +312,75 @@ for (const elem of a1) {
 for (const key in o8) {
   console.log(key, o8[key]);
 }
+
+// Scope
+const n = 1;
+var num4 = 8;
+
+function testScope(num1, num2) {
+  //bad practice creating a global inside a function
+  // window.num4 = 5;
+  globalThis.num4 = 6;
+  {
+    let num3 = 3;
+  }
+  return num1 + num2;
+}
+
+testScope(1, 2);
+console.log(num4);
+// Types of scope:
+// 1. Global -> declared directly in a normal (not a module) js file, or by using the global object and declaring a new property on it
+// a. Script scope -> const/let/class in the global scope
+// 2. Local Scope -> (inside functions) all variables declared inside a function are local to it, including parameters
+// a. Closures -> functions inside function but not only (scopes inside scopes)
+// 3. Block Scope -> (inside curly braces used to group statements, NOT objects), const and let (and class) are visible only inside the block of code they were defined in
+// 4. Module -> variables and functions declared directly in a file that is a module
+
+function createAdder(firstNum) {
+  function adder(secondNum) {
+    return firstNum + secondNum;
+  }
+  return adder;
+}
+
+const addWithFive = createAdder(5);
+const addWithTwo = createAdder(2);
+console.log(addWithFive(6), addWithTwo(6));
+
+for (let i = 0; i < 5; i++) {
+  setTimeout(() => console.log(i), 0);
+}
+
+// Constructor Functions
+function Person(name, weight, height) {
+  this.name = name;
+  this.weight = weight;
+  this.height = height;
+}
+
+Person.prototype.calculateBmi = function () {
+  return (this.weight / this.height ** 2).toFixed(2);
+};
+
+Person.fff = 'altceva';
+
+class User extends Person {
+  #test = 'valoare';
+
+  constructor(name, weight, height, isAdmin) {
+    super(name, weight, height);
+    this.isAdmin = isAdmin;
+  }
+
+  calculateBmi() {
+    return this.#test;
+  }
+
+  static ggg = 'ceva';
+}
+
+const unu = new User('Paul', 100, 1.85, false);
+const doi = new User('Ioana', 70, 1.7, true);
+
+console.log(doi.calculateBmi(), doi.isAdmin, User.ggg, User.fff, typeof User);
