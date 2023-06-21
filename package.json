@@ -1,0 +1,9 @@
+{
+  "name": "frontend-betfair",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "typescript": "^5.1.3"
+  }
+}
