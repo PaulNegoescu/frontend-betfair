@@ -1,9 +1,0 @@
-{
-  "name": "frontend-betfair",
-  "scripts": {
-    "start": "tsc --watch"
-  },
-  "devDependencies": {
-    "typescript": "^5.1.3"
-  }
-}
