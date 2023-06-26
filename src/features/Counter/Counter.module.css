@@ -1,0 +1,13 @@
+.container {
+  --fw: normal;
+}
+
+.positive {
+  color: #bada55;
+  font-weight: var(--fw);
+}
+
+.negative {
+  color: #c00;
+  font-weight: var(--fw);
+}
