@@ -1,7 +1,7 @@
 {
   "name": "frontend-betfair",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc --watch"
   },
   "devDependencies": {
     "typescript": "^5.1.3"
