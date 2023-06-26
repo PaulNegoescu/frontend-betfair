@@ -348,8 +348,8 @@ console.log(num4);
 // 3. Block Scope -> (inside curly braces used to group statements, NOT objects), const and let (and class) are visible only inside the block of code they were defined in
 // 4. Module -> variables and functions declared directly in a file that is a module
 
-function createAdder(firstNum) {
-  function adder(secondNum) {
+function createAdder(firstNum: number) {
+  function adder(secondNum: number) {
     return firstNum + secondNum;
   }
   return adder;
