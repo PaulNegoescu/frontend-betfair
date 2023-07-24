@@ -1,0 +1,85 @@
+:root {
+  --dark-bg: #252322;
+  --dark-highlight: #3b3a39;
+  --primary-accent: #f5c518;
+  --link-on-light: #0e63be;
+  --link-on-dark: #5799ef;
+  --text-on-light: var(--dark-bg);
+  --text-on-dark: #efefef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: #333;
+  font-family: 'Open Sans Variable', Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.625em; /* 10px */
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+a {
+  color: var(--link-on-light);
+}
+
+.constrainedWrapper {
+  max-width: 1024px;
+  margin: auto;
+  padding: 0 2rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: bold;
+}
+
+h1,
+.h1 {
+  font-size: 2.5rem;
+}
+
+h2,
+.h2 {
+  font-size: 2.3rem;
+}
+
+h3,
+.h3 {
+  font-size: 2rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.7rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.4rem;
+}
+
+h6,
+.h6 {
+  font-size: 1.2rem;
+}
