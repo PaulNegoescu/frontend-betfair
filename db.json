@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "email": "a@a.com",
+      "password": "$2a$10$HDR.kI93bcPECMM2LZIc1.Y.yBBm7MjeQwZkY.76wonmaZhMXpU.i",
+      "firstName": "Paul",
+      "lastName": "Negoescu",
+      "id": 1
+    },
+    {
+      "email": "p@p.com",
+      "password": "$2a$10$ss74MsFXRayEf3VtLec0Z.5jw7j/jM6Qo58Y2y8v3jSfk4z2YU0k2",
+      "firstName": "Paul",
+      "lastName": "Negoescu",
+      "id": 2
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Buy Milk",
+      "completed": true
+    },
+    {
+      "userId": 2,
+      "title": "test andrei 2",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "userId": 2,
+      "title": "andrei 2",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "title": "sadasd",
+      "completed": false,
+      "id": 7
+    }
+  ]
+}

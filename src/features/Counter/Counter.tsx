@@ -8,7 +8,7 @@ interface ValidActions {
   payload: number;
 }
 
-function handleClick(oldCount: number, { type, payload }: ValidActions) {
+function counterReducer(oldCount: number, { type, payload }: ValidActions) {
   let newCount = oldCount;
   switch (type) {
     case 'decrement':
@@ -31,7 +31,7 @@ function handleClick(oldCount: number, { type, payload }: ValidActions) {
 // Counter({initialCount: 0, step: 1});
 
 export function Counter({ initialCount = 0, step = 1 }) {
-  const [count, dispatchCountChange] = useReducer(handleClick, initialCount);
+  const [count, dispatchCountChange] = useReducer(counterReducer, initialCount);
 
   return (
     <div className={styles.container}>
