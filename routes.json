@@ -1,4 +1,9 @@
 {
   "/users*": "/600/users$1",
-  "/films*": "/644/films$1"
+  "/films*": "/644/films$1",
+  "/planets*": "/644/planets$1",
+  "/characters*": "/644/characters$1",
+  "/species*": "/644/species$1",
+  "/vehicles*": "/644/vehicles$1",
+  "/starships*": "/644/starships$1"
 }
