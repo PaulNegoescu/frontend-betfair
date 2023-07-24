@@ -1,12 +1,20 @@
 import { useParams } from 'react-router';
 import { useFilms } from './useFilms';
-import { Film, Planet } from './film';
 
 import styles from './Films.module.css';
 
 export function FilmDetails() {
   const { id } = useParams();
-  const [film, planets] = useFilms(id) as [Film, Planet[]];
+
+  if (!id) {
+    return (
+      <div>
+        An error ocurred please navigate back and click a film to continue.
+      </div>
+    );
+  }
+
+  const [film, planets] = useFilms(id);
 
   if (!film) {
     return <div>Loading ...</div>;

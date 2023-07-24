@@ -5,19 +5,22 @@ import { getApi } from '@/utils';
 const { read: getFilmList, readOne: getFilm } = getApi('films');
 const { readOne: getPlanet } = getApi('planets');
 
+export function useFilms(): Film[] | null;
+export function useFilms(id: string): [Film | null, Planet[] | null];
 export function useFilms(id?: string) {
-  const [films, setFilms] = useState<Film[] | Film | null>(null);
+  const [films, setFilms] = useState<Film[] | null>(null);
+  const [film, setFilm] = useState<Film | null>(null);
   const [planets, setPlanets] = useState<Planet[] | null>(null);
 
   useEffect(() => {
     async function getMovies() {
-      let data: Film[] | Film;
       if (!id) {
-        data = await getFilmList();
+        const data = await getFilmList();
+        setFilms(data);
       } else {
-        data = (await getFilm(id)) as Film;
+        const data = (await getFilm(id)) as Film;
+        setFilm(data);
       }
-      setFilms(data);
     }
 
     getMovies();
@@ -25,16 +28,22 @@ export function useFilms(id?: string) {
 
   useEffect(() => {
     async function getPlanets() {
-      const planetPromises: Promise<Planet>[] = (films as Film).planets.map(
-        (planetId) => getPlanet(planetId)
+      if (!film) {
+        return;
+      }
+      const planetPromises: Promise<Planet>[] = film.planets.map((planetId) =>
+        getPlanet(planetId)
       );
       const planets = await Promise.all(planetPromises);
       // data.planetList = planets;
       setPlanets(planets);
     }
+    getPlanets();
+  }, [film]);
 
-    films && getPlanets();
-  }, [films]);
-
-  return [films, planets];
+  if (id) {
+    return [film, planets];
+  } else {
+    return films;
+  }
 }
