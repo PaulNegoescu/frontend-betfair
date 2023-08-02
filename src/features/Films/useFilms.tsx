@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Film, Planet } from './film';
 import { getApi } from '@/utils';
+import { toast } from 'react-toastify';
 
 const { read: getFilmList, readOne: getFilm } = getApi('films');
 const { readOne: getPlanet } = getApi('planets');
@@ -18,7 +19,16 @@ export function useFilms(id?: string) {
         const data = await getFilmList();
         setFilms(data);
       } else {
-        const data = (await getFilm(id)) as Film;
+        const data = await getFilm(id).catch((e) => {
+          toast.error(
+            typeof e.message === 'string'
+              ? e.message
+              : 'Something went wrong, please try again'
+          );
+          return null;
+        });
+        console.log(data);
+
         setFilm(data);
       }
     }

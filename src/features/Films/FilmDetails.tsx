@@ -5,6 +5,7 @@ import styles from './Films.module.css';
 
 export function FilmDetails() {
   const { id } = useParams();
+  const [film, planets] = useFilms(id || '1');
 
   if (!id) {
     return (
@@ -13,8 +14,6 @@ export function FilmDetails() {
       </div>
     );
   }
-
-  const [film, planets] = useFilms(id);
 
   if (!film) {
     return <div>Loading ...</div>;
