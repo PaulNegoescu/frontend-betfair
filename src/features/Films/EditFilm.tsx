@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { array, number, object, string } from 'yup';
 import { Character } from './film';
+import { useParams } from 'react-router-dom';
 
+const { readOne: getFilm } = getApi('films');
 const { read: getCharacters } = getApi('characters');
 
-const addFilmSchema = object({
+const editFilmSchema = object({
   title: string().required(),
   director: string().required(),
   producer: string().required(),
@@ -19,19 +21,21 @@ const addFilmSchema = object({
   characters: array(string()).min(1),
 });
 
-export function AddFilm() {
+export function EditFilm() {
   const [characters, setCharacters] = useState<Character[] | null>(null);
   useEffect(() => {
     getCharacters().then((data) => setCharacters(data));
   }, []);
+  const { id } = useParams();
 
   const {
     register,
     unregister,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useForm({
-    resolver: yupResolver(addFilmSchema),
+    resolver: yupResolver(editFilmSchema),
+    defaultValues: () => getFilm(Number(id)),
   });
 
   function onSubmit(data: any) {
@@ -41,12 +45,15 @@ export function AddFilm() {
     // send2Server.characters = send2Server.characters.map(
     //   (ch: { label: string; id: string }) => Number(ch.id)
     // );
-
-    // console.log('ASDASDA', send2Server);
   }
+
+  // if (!film) {
+  //   return <div>Loading ...</div>;
+  // }
+
   return (
     <>
-      <h2>Add a new one</h2>
+      <h2>Edit "{defaultValues?.title}"</h2>
       <form className="brandForm" onSubmit={handleSubmit(onSubmit)}>
         <Input
           name="title"
@@ -103,6 +110,7 @@ export function AddFilm() {
             label="Characters"
             register={register}
             unregister={unregister}
+            defaultValues={defaultValues}
             errors={errors}
             options={characters.map((ch) => ({
               label: ch.name,

@@ -1,11 +1,13 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router-dom';
 import { useFilms } from './useFilms';
+import { useAuth } from '..';
 
 import styles from './Films.module.css';
 
 export function FilmDetails() {
   const { id } = useParams();
   const [film, planets] = useFilms(id || '1');
+  const { user } = useAuth();
 
   if (!id) {
     return (
@@ -24,6 +26,7 @@ export function FilmDetails() {
       <img src={film.poster} alt={`Poster for ${film.title}`} />
       <div>
         <h1>{film.title}</h1>
+        {user && <Link to={`edit`}>Edit this film</Link>}
         <p>{film.opening_crawl}</p>
       </div>
       <div>

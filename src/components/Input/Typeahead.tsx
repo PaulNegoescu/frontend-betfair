@@ -1,12 +1,16 @@
-import { ChangeEvent, HTMLAttributes, ReactNode } from 'react';
+import {
+  ChangeEvent,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import {
   FieldErrors,
   FieldValues,
   UseFormRegister,
   Path,
-  useFieldArray,
-  Control,
-  FieldArray,
+  UseFormUnregister,
 } from 'react-hook-form';
 
 interface Props<T extends FieldValues> {
@@ -14,8 +18,9 @@ interface Props<T extends FieldValues> {
   label: string;
   options: Array<{ label: string; id: string }>;
   errors: FieldErrors<T>;
-  control: Control<any>;
+  defaultValues: any;
   register: UseFormRegister<T>;
+  unregister: UseFormUnregister<T>;
 }
 
 export function Typeahead<T extends FieldValues>({
@@ -23,29 +28,52 @@ export function Typeahead<T extends FieldValues>({
   label,
   errors,
   options,
-  control,
+  defaultValues,
+  unregister,
   register,
   ...props
 }: Props<T> &
   Exclude<HTMLAttributes<HTMLInputElement>, 'type' | 'name' | 'id'>) {
   // const [selected, setSelected] = useState<Props<T>['options'] | []>([]);
-  const { fields, append, remove } = useFieldArray({ name, control });
+  const [selected, setSelected] = useState<{ label: string; id: string }[]>([]);
+
+  useEffect(() => {
+    if (defaultValues[name]) {
+      const defaultSelected = options.filter((o) =>
+        defaultValues[name].includes(Number(o.id))
+      );
+      setSelected(defaultSelected);
+    }
+  }, [defaultValues, name, options]);
 
   function handleSelectOption(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     const option = options.find((o) => o.label === value);
     if (option) {
-      if (!fields.find((f) => f.label === option.label)) {
-        append(option as any);
+      if (!selected.find((f) => f.label === option.label)) {
+        setSelected([...selected, option]);
         e.target.value = '';
       }
     }
   }
 
-  function handleRemoveOption(index: number) {
-    remove(index);
+  function handleRemoveOption(id: string) {
+    setSelected(selected.filter((s) => s.id !== id));
   }
 
+  let errorJsx = null;
+
+  if (errors[name]) {
+    if (Array.isArray(errors[name])) {
+      errorJsx = (errors[name] as any[])?.map((e) => (
+        <p className="fieldError">{e.message as ReactNode}</p>
+      ));
+    } else {
+      errorJsx = (
+        <p className="fieldError">{errors[name]?.message as string}</p>
+      );
+    }
+  }
   return (
     <>
       <label htmlFor={name}>{label}</label>
@@ -64,12 +92,15 @@ export function Typeahead<T extends FieldValues>({
           ))}
         </datalist>
         <div>
-          {fields.map((s, index) => (
+          {selected.map((s, index) => (
             <button
               key={s.id}
               type="button"
-              onClick={() => handleRemoveOption(index)}
-              {...register(`${name}.${index}.${s.id}` as Path<T>)}
+              onClick={() => {
+                handleRemoveOption(s.id);
+                unregister(`${name}` as Path<T>);
+              }}
+              {...register(`${name}.${index}` as Path<T>)}
               value={s.id}
             >
               {s.label}
@@ -77,9 +108,7 @@ export function Typeahead<T extends FieldValues>({
           ))}
         </div>
       </div>
-      {errors[name] && (
-        <p className="fieldError">{errors[name]?.message as ReactNode}</p>
-      )}
+      {errorJsx}
     </>
   );
 }
