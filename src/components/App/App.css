@@ -83,3 +83,45 @@ h6,
 .h6 {
   font-size: 1.2rem;
 }
+
+.brandForm {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: start;
+  gap: 0.3rem;
+
+  margin: auto;
+  max-width: 960px;
+}
+
+.brandForm label {
+  align-self: center;
+  text-align: right;
+}
+
+.brandForm input:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #333;
+  border-radius: 3px;
+  padding: 0.5rem 0.7rem;
+}
+
+.brandFormAction {
+  grid-column-start: 2;
+  justify-self: start;
+}
+
+.fieldError {
+  grid-column-start: 2;
+
+  margin: 0;
+
+  color: #c00;
+}
+
+/* .brandForm input:focus {
+  outline: 2px solid red;
+} */
+
+.fullGridWidth {
+  grid-column: 1 / -1;
+}

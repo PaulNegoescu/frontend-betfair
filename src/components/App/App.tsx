@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import { FilmsList, FilmDetails } from '@/features';
+import { Nav } from '@/components';
+import { AuthContextProvider, Auth, FilmsLayout } from '@/features';
 
 import 'react-toastify/dist/ReactToastify.css';
 import '@fontsource/open-sans';
@@ -9,12 +10,17 @@ import './App.css';
 
 export function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<FilmsList />} />
-        <Route path="/films/:id" element={<FilmDetails />} />
-      </Routes>
-      <ToastContainer />
-    </BrowserRouter>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Navigate to="/films" />} />
+          <Route path="/films/*" element={<FilmsLayout />} />
+          <Route path="/login" element={<Auth />} />
+          <Route path="/register" element={<Auth />} />
+        </Routes>
+        <ToastContainer />
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }

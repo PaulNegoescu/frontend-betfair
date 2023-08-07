@@ -30,3 +30,8 @@ export interface Planet {
   films: number[];
   id: number;
 }
+
+export interface Character {
+  name: string;
+  id: number;
+}
