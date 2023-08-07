@@ -38,7 +38,7 @@ export function Typeahead<T extends FieldValues>({
   const [selected, setSelected] = useState<{ label: string; id: string }[]>([]);
 
   useEffect(() => {
-    if (defaultValues[name]) {
+    if (defaultValues && defaultValues[name]) {
       const defaultSelected = options.filter((o) =>
         defaultValues[name].includes(Number(o.id))
       );

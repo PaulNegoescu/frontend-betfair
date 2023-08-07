@@ -4,11 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { array, number, object, string } from 'yup';
-import { Character } from './film';
+import { Character, Planet } from './film';
 import { useParams } from 'react-router-dom';
 
 const { readOne: getFilm } = getApi('films');
 const { read: getCharacters } = getApi('characters');
+const { read: getPlanets } = getApi('planets');
 
 const editFilmSchema = object({
   title: string().required(),
@@ -23,8 +24,10 @@ const editFilmSchema = object({
 
 export function EditFilm() {
   const [characters, setCharacters] = useState<Character[] | null>(null);
+  const [planets, setPlanets] = useState<Planet[] | null>(null);
   useEffect(() => {
     getCharacters().then((data) => setCharacters(data));
+    getPlanets().then((data) => setPlanets(data));
   }, []);
   const { id } = useParams();
 
@@ -118,6 +121,20 @@ export function EditFilm() {
             }))}
           />
         )}
+        <div>Planets</div>
+        <div>
+          {planets?.map((planet) => (
+            <label key={planet.id}>
+              <input
+                type="checkbox"
+                value={planet.id}
+                {...register(`planets`)}
+                defaultChecked={defaultValues?.planets.includes(planet.id)}
+              />
+              {planet.name}
+            </label>
+          ))}
+        </div>
         <button type="submit">Submit</button>
       </form>
     </>
